@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oso entrega ramo</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    /* Estilo del oso */
+    .bear {
+      position: absolute;
+      width: 100px;
+      transform: translate(-50%, -50%);
+      transition: transform 3s ease-in-out;
+      /* Slower animation for bear (3 seconds) */
+      opacity: 0;
+      /* Initially hide the bear */
+    }
+    /* Flores */
+    .flowers {
+      position: absolute;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+    .flowers img {
+      width: 50vw;
+      /* Ocupa la mitad de la pantalla */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="Atardecer.jpg" alt="Fondo" style="width: 100%; height: 100vh; position: absolute; top: 0; left: 0;">
+    <img src="osoEnBarco.jpg" alt="Oso de peluche" class="bear" id="bear">
+    <audio id="music" src="Piratas.mp3" controls autoplay></audio>
+    <div class="flowers" id="flowers">
+      <img src="Ramo-removebg-preview.jpg" alt="Ramo de flores amarillas">
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const bear = document.getElementById("bear");
+      const flowers = document.getElementById("flowers");
+      const musics = document.getElementById("music");
+
+      // Play music with a user interaction (e.g., click)
+      // You can replace "playMusic" with the actual function call 
+      // to trigger music playback based on your desired user interaction.
+      document.body.addEventListener("click", playMusic);
+      // ... resto de tu código JavaScript ...
+      function playMusic() {
+        music.play().then(() => {
+          // Music playback successful
+        }).catch((error) => {
+          // Handle error (e.g., show a message to the user)
+          console.error("Music playback failed:", error);
+        });
+      }
+      // ... resto de tu código JavaScript ...
+      const music = document.getElementById("music");
+      // Intenta reproducir la música al cargar la página
+      // Aquí puedes agregar acciones adicionales en caso de error, como mostrar un mensaje al usuario
+    }
+    );
+    // Inicialmente oculta al oso
+    bear.style.opacity = 0;
+    // Animar al oso después de un breve retraso
+    setTimeout(() => {
+      bear.style.opacity = 1; // Hacer visible al oso
+      bear.style.transition = 'none';
+      bear.style.transform = `translate(50vw, 50vh) scale(1)`;
+      let start = null;
+      function animateBear(timestamp) {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / 8000, 1);
+        // Actualizar posición y tamaño del oso
+        bear.style.transform = `translate(50vw, 50vh) scale(${1 + progress * 2})`;
+        // Continuar animación hasta completar
+        if (progress < 1) {
+          window.requestAnimationFrame(animateBear);
+        } else {
+          // Mover flores al centro, encima del oso
+          flowers.style.top = bear.getBoundingClientRect().top + "px";
+          flowers.style.display = "block";
+        }
+      }
+      window.requestAnimationFrame(animateBear);
+    }, 500);
+    ;
+  </script>
+</body>
+</html>
